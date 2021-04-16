@@ -1,1 +1,24 @@
 @import './reset';
+#pc_lp {
+	& > div {
+		position: relative;
+		max-width: 1920px;
+		overflow: hidden;
+		height: 100%;
+		& > img {
+			width: 1920px;
+			position: absolute;
+			left: 50%;
+			margin-left: -960px;
+		}
+	}
+	// コンバージョンボタン
+	.cv-lick {
+		position: absolute;
+	}
+}
+#sp_lp {
+	.cv-lick {
+		position: absolute;
+	}
+}
