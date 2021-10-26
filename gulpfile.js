@@ -9,19 +9,14 @@ const autoprefixer = require('gulp-autoprefixer')
 const postcss = require('gulp-postcss')
 const mqpacker = require('css-mqpacker')
 const pug = require('gulp-pug')
-const typescript = require('gulp-typescript')
+
 const babel = require('gulp-babel')
 const browserSync = require('browser-sync').create()
 
 //====================
 //  タスクの追加
 //====================
-gulp.task('ts', function () {
-	return gulp
-		.src('./src/ts/*.ts')
-		.pipe(typescript())
-		.pipe(gulp.dest('./src/js'))
-})
+
 
 gulp.task('sass', function () {
 	return gulp
@@ -78,7 +73,6 @@ gulp.task('watch', () => {
 
 	gulp.watch('./src/pug/*.pug', gulp.series('pug'))
 	gulp.watch('./src/scss/*.scss', gulp.series('sass'))
-	gulp.watch('./src/ts/*.ts', gulp.series('ts'))
 	gulp.watch('./src/js/*.js', gulp.series('babel'))
 	gulp.watch('./dist/**/*', browserReload)
 })
@@ -88,5 +82,5 @@ gulp.task('watch', () => {
 //====================
 gulp.task(
 	'default',
-	gulp.series('ts', 'pug', 'sass', 'babel', 'serve', 'watch')
+	gulp.series('pug', 'sass', 'babel', 'serve', 'watch')
 )
