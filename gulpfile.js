@@ -8,8 +8,8 @@ const sourcemaps = require('gulp-sourcemaps')
 const autoprefixer = require('gulp-autoprefixer')
 const postcss = require('gulp-postcss')
 const mqpacker = require('css-mqpacker')
-const pug = require('gulp-pug')
-
+const rename = require('gulp-rename')
+const ejs = require('gulp-ejs')
 const babel = require('gulp-babel')
 const browserSync = require('browser-sync').create()
 
@@ -34,11 +34,19 @@ gulp.task('sass', function () {
 		.pipe(sourcemaps.write('/'))
 })
 
-gulp.task('pug', function () {
+gulp.task('ejs', function () {
 	return gulp
     .src('./src/pug/*.pug')
 		.pipe(pug({ pretty: true }))
 		.pipe(gulp.dest('./dist'))
+})
+gulp.task('ejs', (done) => {
+  gulp
+    .src(['./src/ejs/*.ejs', '!' + './src/ejs/**/_*.ejs'])
+    .pipe(ejs({}, {}, { ext: '.html' }))
+    .pipe(rename({ extname: '.html' }))
+    .pipe(gulp.dest('./dist'))
+  done()
 })
 
 gulp.task('babel', function () {
@@ -71,7 +79,7 @@ gulp.task('watch', () => {
 		done()
 	}
 
-	gulp.watch('./src/pug/*.pug', gulp.series('pug'))
+	gulp.watch('./src/ejs/*.ejs', gulp.series('ejs'))
 	gulp.watch('./src/scss/*.scss', gulp.series('sass'))
 	gulp.watch('./src/js/*.js', gulp.series('babel'))
 	gulp.watch('./dist/**/*', browserReload)
@@ -82,5 +90,5 @@ gulp.task('watch', () => {
 //====================
 gulp.task(
 	'default',
-	gulp.series('pug', 'sass', 'babel', 'serve', 'watch')
+	gulp.series('ejs', 'sass', 'babel', 'serve', 'watch')
 )
